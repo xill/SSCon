@@ -1,4 +1,4 @@
-#include "textbuilder/textfactory.h"
+#include "textfactory.h"
 
 TextFactory* TextFactory::m_instance = 0;
 const int TextFactory::TERMINAL_FONT_1 = 0;

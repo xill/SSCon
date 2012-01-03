@@ -1,10 +1,9 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-#include "textbuilder/text_include.h"
-#include "textbuilder/textfactory.h"
+#include "text_include.h"
+#include "textfactory.h"
 #include "terminallistener.h"
-#include "math/vec2.h"
 #include <string>
 #include <vector>
 
@@ -21,17 +20,20 @@ public:
 		, indexPointer(-1)
 		, isOpen(false)
 		, shiftIsDown(false)
+		, width(0)
+		, height(0)
 	{}
 
-	Terminal(Vec2f dim) 
+	Terminal(float _width, float _height) 
 		: keystring("")
 		, indexPointer(-1)
 		, isOpen(false)
 		, shiftIsDown(false)
-		, dimension(dim)
+		, width(_width)
+		, height(_height)
 	{}
 
-	void setDimension(Vec2f dimension){ this->dimension = dimension; }
+	void setDimension(float _width, float _height){ this->width = _width; this->height = _height; }
 
 	void open() { isOpen = true; }
 	void close() { isOpen = false; }
@@ -62,8 +64,8 @@ public:
 		glLoadIdentity();
 
 		glOrtho(
-			0, dimension.x,
-			dimension.y, 0,
+			0, width,
+			height, 0,
 			-1.0f, 1.0f);
 
 		glMatrixMode(GL_MODELVIEW);
@@ -75,9 +77,9 @@ public:
 
 		glBegin(GL_QUADS);
 			glVertex2f(0,0);
-			glVertex2f(dimension.x,0);
-			glVertex2f(dimension.x,dimension.y);
-			glVertex2f(0,dimension.y);
+			glVertex2f(width,0);
+			glVertex2f(width,height);
+			glVertex2f(0,height);
 		glEnd();
 
 		glPopMatrix();
@@ -151,7 +153,7 @@ public:
 	void setListener(TerminalListener* listener) { this->listener = listener; }
 
 private:
-	Vec2f dimension;
+	float width,height;
 	bool isOpen;
 	std::string keystring;
 	std::vector<std::string> string_stack;

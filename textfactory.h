@@ -7,8 +7,8 @@
 #	include <tr1/unordered_map>
 #endif
 
-#include "textbuilder/text_include.h"
-#include "textbuilder/fontmanager.h"
+#include "text_include.h"
+#include "fontmanager.h"
 
 class TextFactory
 {
