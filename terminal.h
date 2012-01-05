@@ -22,6 +22,10 @@ public:
 		, shiftIsDown(false)
 		, width(0)
 		, height(0)
+		, R(0.1f)
+		, G(0.1f)
+		, B(0.1f)
+		, A(0.3f)
 	{}
 
 	Terminal(float _width, float _height) 
@@ -31,9 +35,17 @@ public:
 		, shiftIsDown(false)
 		, width(_width)
 		, height(_height)
+		, R(0.1f)
+		, G(0.1f)
+		, B(0.1f)
+		, A(0.3f)
 	{}
 
 	void setDimension(float _width, float _height){ this->width = _width; this->height = _height; }
+	void setBackgroundRGBA(float r, float g, float b, float a)
+	{
+		this->R = r; this->G = g; this->B = b; this->A = a;
+	}
 
 	void open() { isOpen = true; }
 	void close() { isOpen = false; }
@@ -70,7 +82,7 @@ public:
 
 		glMatrixMode(GL_MODELVIEW);
 
-		glColor4f(0.1f,0.1f,0.1f,0.3f);
+		glColor4f(R,G,B,A);
 		glDisable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -150,6 +162,18 @@ public:
 		return true;
 	}
 
+	/**
+	 * Adds a single string to the top of the terminal stack.
+	 */
+	void push(std::string line)
+	{
+		string_stack.push_back(line);
+
+		while(string_stack.size() >= STACK_CAPASITY) {
+			string_stack.erase(string_stack.begin());
+		}
+	}
+
 	void setListener(TerminalListener* listener) { this->listener = listener; }
 
 private:
@@ -158,6 +182,8 @@ private:
 	std::string keystring;
 	std::vector<std::string> string_stack;
 	std::vector<std::string> key_stack;
+
+	float R,G,B,A;
 
 	int indexPointer;
 	bool shiftIsDown;
@@ -229,6 +255,7 @@ private:
 			case SDLK_QUESTION: keystring.append("?"); break;
 			case SDLK_PERIOD: keystring.append((shiftIsDown)?":":"."); break;
 			case SDLK_COMMA: keystring.append((shiftIsDown)?";":","); break;
+			case SDLK_SLASH: keystring.append(/*(shiftIsDown)?"_":*/"-"); break;
 
 			case SDLK_KP_PLUS: keystring.append("+"); break;	
 			case SDLK_KP_MINUS: keystring.append("-"); break;	

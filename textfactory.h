@@ -28,6 +28,9 @@ public:
 
 	void drawText(std::string text, float x = 0, float y = 0);
 
+	/* returns a reference to fontmanager object used. */
+	FontManager* util() { return m_fontbuilder; }
+
 protected:
 
 private:
