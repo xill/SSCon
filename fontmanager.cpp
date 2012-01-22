@@ -68,8 +68,21 @@ void FontManager::drawOnScreenFont(std::string s ,FontData f){
 
 	float sx = f.font_scale_w*dim_map[s]->x;
 	float sy = f.font_scale_h*dim_map[s]->y;
+	float extra_y = 0;
 
-	glTranslatef(f.start_x,f.start_y+(f.font_scale_h-sy),0);
+	// letters and characters which need to start from a lower point.
+	if(s == "q" 
+		|| s == "y"
+		|| s == "p"
+		|| s == "j"
+		|| s == "g"
+		|| s == "+"
+		|| s == "-"
+	) {
+		extra_y = sy*0.25f;
+	}
+
+	glTranslatef(f.start_x,f.start_y+(f.font_scale_h-sy)+extra_y,0);
 	glScalef(sx,sy,1);
 
 	glTexCoordPointer(2,GL_FLOAT,0,uv_map[s]);
