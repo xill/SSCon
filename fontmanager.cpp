@@ -29,27 +29,33 @@ void FontManager::readFontFile(std::string path)
 			uv[6] = x; uv[7] = y+h;
 			uv_map[elem[1]] = uv;
 			dim_map[elem[1]] = new Vec2f(dw/15.0f,dh/18.0f);
-			//std::cout << line << std::endl;
-			/*
-			for(int i = 0; i < elem.size(); i++){
-				std::cout << elem[i]+" ";
-			}
-			std::cout << std::endl;
-			*//*
-			for(int i = 0; i < 8 ; i++){
-				printf("%.2f ",uv_map[elem[1]][i]);
-			}
-			printf("\n");
-			*//*
-			for(int i = 0; i < 8 ; i++){
-				printf("%.2f ",uv[i]);
-			}
-			printf("\n");
-			*/
 		}
 		myfile.close();
+		initialized = true;
 	}
-	else std::cout << "Unable to open file"; 
+	else {
+		initialized = false;
+		std::cout << "Unable to open file";
+	}
+}
+
+void FontManager::convertBlackToAlpha(ImageContainer *image)
+{
+	for (unsigned int i = 0; i < image->bytes; i += 4) {
+		if (
+			image->pixel_data[i]   < 0x55 &&
+			image->pixel_data[i+1] < 0x55 &&
+			image->pixel_data[i+2] < 0x55
+		) {
+			image->pixel_data[i+3] = 0x00;
+			continue;
+		} else {
+			image->pixel_data[i]   = 0xff;
+			image->pixel_data[i+1] = 0xff;
+			image->pixel_data[i+2] = 0xff;
+			image->pixel_data[i+3] = 0xff;
+		}
+	}
 }
 
 void FontManager::drawOnScreenFont(std::string s ,FontData f){
@@ -71,7 +77,7 @@ void FontManager::drawOnScreenFont(std::string s ,FontData f){
 
 	glPopMatrix();
 
-	glTranslatef(f.shift_x*dim_map[s]->x,f.shift_y,0);
+	glTranslatef(f.shift_x*dim_map[s]->x ,f.shift_y,0);
 }
 
 void FontManager::preDraw(){
@@ -80,17 +86,3 @@ void FontManager::preDraw(){
 	glVertexPointer(3,GL_FLOAT,0,font_vertex);
 	glBindTexture(GL_TEXTURE_2D,font);
 }
-
-/*
-GLuint FontManager::buildUVMap(float* uv_coordinates, int size){
-	GLuint textureBufferIndex = 0;
-	
-	GLuint[] buffer = new GLuint[1];
-	glGenBuffers(1, buffer, 0);
-	textureBufferIndex = buffer[0];
-	glBindBuffer(GL_ARRAY_BUFFER, textureBufferIndex);
-	glBufferData(GL_ARRAY_BUFFER, size * 4, uv_coordinates, GL_STATIC_DRAW);
-	
-	return textureBufferIndex;
-}
-*/

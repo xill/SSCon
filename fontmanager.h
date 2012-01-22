@@ -16,31 +16,35 @@
 #define TERMINAL_FONT1	terminal_font1
 #include				"terminal_font1.h"
 
+struct ImageContainer {
+	unsigned int width;
+	unsigned int height;
+	unsigned int bytes_per_pixel;
+	unsigned int bytes;
+	unsigned char *pixel_data;
+
+	ImageContainer(unsigned int width, unsigned int height, unsigned int bytes_per_pixel, unsigned char *pixel_data)
+	: width(width), height(height), bytes_per_pixel(bytes_per_pixel), pixel_data(pixel_data) , bytes(width*height*bytes_per_pixel)
+	{}
+
+	ImageContainer() : pixel_data(0) {}
+	~ImageContainer() { delete pixel_data; }
+};
+
 class FontManager {
 
 public:
-
-	struct _images {
-		unsigned int width;
-		unsigned int height;
-		unsigned int bytes_per_pixel;
-		const unsigned char *pixel_data;
-
-		_images(unsigned int width, unsigned int height, unsigned int bytes_per_pixel, const unsigned char *pixel_data)
-		: width(width), height(height), bytes_per_pixel(bytes_per_pixel), pixel_data(pixel_data)
-		{}
-
-		_images() {}
-	};
 
 	FontManager() 
 		: font(0)
 		, w_scale(12)
 		, h_scale(16)
 		, debug(false)
+		, initialized(false)
 	{
-		font_image = _images(TERMINAL_FONT1.width, TERMINAL_FONT1.height, TERMINAL_FONT1.bytes_per_pixel, &TERMINAL_FONT1.pixel_data[0]);
-
+		font_image = new ImageContainer(TERMINAL_FONT1.width, TERMINAL_FONT1.height, TERMINAL_FONT1.bytes_per_pixel, &TERMINAL_FONT1.pixel_data[0]);
+		convertBlackToAlpha(font_image);
+		
 		glGenTextures(1, &font);
 
 		// Create Linear Filtered Texture
@@ -54,8 +58,8 @@ public:
 		glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
 
 		glTexImage2D(
-			GL_TEXTURE_2D, 0, GL_RGBA, font_image.width, font_image.height, 0,
-			GL_RGBA, GL_UNSIGNED_BYTE, font_image.pixel_data
+			GL_TEXTURE_2D, 0, GL_RGBA, font_image->width, font_image->height, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, font_image->pixel_data
 		);
 		/*
 		if(font == 0){
@@ -72,8 +76,6 @@ public:
 	}
 
 	void releaseTexture(int texture_id);
-
-	//void bindOrDoNothing(GLuint texture_id);
 
 	float w_scale,h_scale;
 
@@ -101,11 +103,18 @@ public:
 	 */
 	void preDraw();
 
+	bool hasInitialized() { return initialized; }
+
+	void convertBlackToAlpha(ImageContainer *image);
+
 private:
 	bool debug;
+	bool initialized;
+
+
 	GLuint font;
 	GLfloat* font_vertex;
-	_images font_image;
+	ImageContainer* font_image;
 	std::tr1::unordered_map<std::string,GLfloat*> uv_map;
 	std::tr1::unordered_map<std::string,Vec2f*> dim_map;
 };

@@ -16,6 +16,8 @@ TextFactory::TextFactory(int fontkey)
 
 void TextFactory::drawText(std::string text, float x, float y)
 {
+	if(!m_fontbuilder->hasInitialized()) return;
+
 	glPushMatrix();
 	glTranslatef(x,y,0);
 	glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_TEXTURE_BIT);

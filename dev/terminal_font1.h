@@ -1,12 +1,17 @@
-/*  GIMP header image file format (RGB): C:\Ohjelmointi\c++\opengltextrendering\project\src\textbuilder\text_graphics\terminal_font1.h  */
+/*  GIMP header image file format (RGB): C:\Ohjelmointi\c++\SGBuild\src\SSCon\dev\terminal_font1.h  */
 
-static struct {
-  unsigned int 	 width;
-  unsigned int 	 height;
-  unsigned int 	 bytes_per_pixel; /* 3:RGB, 4:RGBA */ 
-  unsigned char	 pixel_data[64 * 200 * 4 + 1];
-} terminal_font1 = {
-  64, 200, 4,
+static unsigned int width = 64;
+static unsigned int height = 200;
+
+/*  Call this macro repeatedly.  After each use, the pixel data can be extracted  */
+
+#define HEADER_PIXEL(data,pixel) {\
+pixel[0] = (((data[0] - 33) << 2) | ((data[1] - 33) >> 4)); \
+pixel[1] = ((((data[1] - 33) & 0xF) << 4) | ((data[2] - 33) >> 2)); \
+pixel[2] = ((((data[2] - 33) & 0x3) << 6) | ((data[3] - 33))); \
+data += 4; \
+}
+static char *header_data =
 	"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -807,5 +812,4 @@ static struct {
 	"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-	""
-	};
+	"";
