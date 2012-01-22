@@ -41,15 +41,28 @@ public:
 		, A(0.3f)
 	{}
 
+	/** dimension for the terminal background. */
 	void setDimension(float _width, float _height){ this->width = _width; this->height = _height; }
+
+	/** color of the terminal background. */
 	void setBackgroundRGBA(float r, float g, float b, float a)
 	{
 		this->R = r; this->G = g; this->B = b; this->A = a;
 	}
-
+	
+	/** Sets the terminal as open. Thus it can be drawn and used. */
 	void open() { isOpen = true; }
+
+	/** Sets the terminal as closed. Thus it cannot be drawn nor used. */
 	void close() { isOpen = false; }
 
+	/**
+	 * Reads latest SDL key events and updates the terminal.
+	 *
+	 * returns:
+	 * True if successful.
+	 * False if terminal was not open.
+	 */
 	bool update()
 	{
 		if(!isOpen) return false;
@@ -111,6 +124,11 @@ public:
 		glMatrixMode(GL_MODELVIEW);
 	}
 
+	/**
+	 * Commits a new string.
+	 * 
+	 * if a terminallistener is set it's onCommit is called.
+	 */
 	void commit(std::string line)
 	{
 		if(line == "") return;
