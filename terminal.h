@@ -205,6 +205,7 @@ private:
 
 	int indexPointer;
 	bool shiftIsDown;
+	bool altGrIsDown;
 
 	TerminalListener* listener;
 
@@ -219,6 +220,9 @@ private:
 			case SDLK_LSHIFT:
 			case SDLK_RSHIFT: shiftIsDown = false; break;
 
+			case SDLK_RALT:
+			case SDLK_MODE: altGrIsDown = false; break;
+
 			default:
 				break;
 			};
@@ -229,16 +233,16 @@ private:
 			switch (event.key.keysym.sym) {
 
 			case SDLK_1: keystring.append((shiftIsDown)?"!":"1"); break;
-			case SDLK_2: keystring.append((shiftIsDown)?"\"":"2"); break;
+			case SDLK_2: keystring.append((shiftIsDown)?"\"":(altGrIsDown)?"@":"2"); break;
 			case SDLK_3: keystring.append((shiftIsDown)?"#":"3"); break;
 			case SDLK_4: keystring.append(/*(shiftIsDown)?"¤":*/"4"); break;
 			case SDLK_5: keystring.append((shiftIsDown)?"%":"5"); break;
 			case SDLK_6: keystring.append((shiftIsDown)?"&":"6"); break;
 			case SDLK_7: keystring.append((shiftIsDown)?"/":"7"); break;
-			case SDLK_8: keystring.append((shiftIsDown)?"(":"8"); break;
-			case SDLK_9: keystring.append((shiftIsDown)?")":"9"); break;
+			case SDLK_8: keystring.append((shiftIsDown)?"(":(altGrIsDown)?"[":"8"); break;
+			case SDLK_9: keystring.append((shiftIsDown)?")":(altGrIsDown)?"]":"9"); break;
 			case SDLK_0: keystring.append((shiftIsDown)?"=":"0"); break;
-			case SDLK_PLUS: keystring.append((shiftIsDown)?"?":"+"); break;
+			case SDLK_MINUS: keystring.append((shiftIsDown)?"?":(altGrIsDown)?"\\":"+"); break;
 
 			case SDLK_q: keystring.append("q"); break;
 			case SDLK_w: keystring.append("w"); break;
@@ -250,6 +254,7 @@ private:
 			case SDLK_i: keystring.append("i"); break;
 			case SDLK_o: keystring.append("o"); break;
 			case SDLK_p: keystring.append("p"); break;
+			case SDLK_LEFTBRACKET: keystring.append("å"); break;
 
 			case SDLK_a: keystring.append("a"); break;
 			case SDLK_s: keystring.append("s"); break;
@@ -260,6 +265,8 @@ private:
 			case SDLK_j: keystring.append("j"); break;
 			case SDLK_k: keystring.append("k"); break;
 			case SDLK_l: keystring.append("l"); break;
+			case SDLK_SEMICOLON: keystring.append("ö"); break;
+			case SDLK_QUOTE: keystring.append("ä"); break;
 
 			case SDLK_z: keystring.append("z"); break;
 			case SDLK_x: keystring.append("x"); break;
@@ -273,14 +280,18 @@ private:
 			case SDLK_QUESTION: keystring.append("?"); break;
 			case SDLK_PERIOD: keystring.append((shiftIsDown)?":":"."); break;
 			case SDLK_COMMA: keystring.append((shiftIsDown)?";":","); break;
-			case SDLK_SLASH: keystring.append(/*(shiftIsDown)?"_":*/"-"); break;
+			case SDLK_SLASH: keystring.append((shiftIsDown)?"_":"-"); break;
 
 			case SDLK_KP_PLUS: keystring.append("+"); break;	
-			case SDLK_KP_MINUS: keystring.append("-"); break;	
+			case SDLK_KP_MINUS: keystring.append("-"); break;
+			case SDLK_KP_DIVIDE: keystring.append("÷"); break;
 
 			case SDLK_SPACE: keystring.append(" "); break;
 			case SDLK_LSHIFT:
 			case SDLK_RSHIFT: shiftIsDown = true; break;
+
+			case SDLK_RALT:
+			case SDLK_MODE: altGrIsDown = true; break;
 
 			case SDLK_BACKSPACE: if(keystring.size() > 0) keystring.erase(keystring.size()-1,1); break;
 			case SDLK_HOME:
