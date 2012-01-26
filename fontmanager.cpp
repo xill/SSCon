@@ -6,39 +6,6 @@ void FontManager::releaseTexture(int texture_id){
 	glDeleteTextures(1,&font);
 }
 
-void FontManager::readFontFile(std::string path)
-{
-	std::string line;
-	std::ifstream myfile (path);
-	if (myfile.is_open())
-	{
-		while ( myfile.good() )
-		{
-			getline (myfile,line);
-			std::vector<std::string> elem = split(line,' ');
-
-			if(elem.size() == 0) continue; // ignores empty lines.
-
-			float x = atof(elem[2].c_str()),y = atof(elem[3].c_str()),w = atof(elem[4].c_str()),h = atof(elem[5].c_str());
-			float dw = atof(elem[6].c_str()), dh = atof(elem[7].c_str());
-
-			GLfloat *uv = new float[8]; 	
-			uv[0] = x; uv[1] = y;
-			uv[2] = x+w; uv[3] = y;
-			uv[4] = x+w; uv[5] = y+h;
-			uv[6] = x; uv[7] = y+h;
-			uv_map[elem[1]] = uv;
-			dim_map[elem[1]] = new Vec2f(dw/15.0f,dh/18.0f);
-		}
-		myfile.close();
-		initialized = true;
-	}
-	else {
-		initialized = false;
-		std::cout << "Unable to open file";
-	}
-}
-
 void FontManager::convertBlackToAlpha(ImageContainer *image)
 {
 	for (unsigned int i = 0; i < image->bytes; i += 4) {

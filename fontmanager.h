@@ -11,6 +11,7 @@
 #include <sstream>
 #include "text_include.h"
 #include "fontdata.h"
+#include "fontmaps.h"
 #include "math/vec2.h"
 
 #define TERMINAL_FONT1	terminal_font1
@@ -40,8 +41,12 @@ public:
 		, w_scale(12)
 		, h_scale(16)
 		, debug(false)
-		, initialized(false)
 	{
+		FontMap::getTerminalFont1_UV(uv_map);
+		FontMap::getTerminalFont1_DIM(dim_map);
+		printf("size of uv map was %d \n",uv_map.size());
+		printf("size of dim map was %d \n",dim_map.size());
+
 		font_image = new ImageContainer(TERMINAL_FONT1.width, TERMINAL_FONT1.height, TERMINAL_FONT1.bytes_per_pixel, &TERMINAL_FONT1.pixel_data[0]);
 		convertBlackToAlpha(font_image);
 		
@@ -103,14 +108,10 @@ public:
 	 */
 	void preDraw();
 
-	bool hasInitialized() { return initialized; }
-
 	void convertBlackToAlpha(ImageContainer *image);
 
 private:
 	bool debug;
-	bool initialized;
-
 
 	GLuint font;
 	GLfloat* font_vertex;

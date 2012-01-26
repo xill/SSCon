@@ -5,6 +5,7 @@ set(SSCon_Headers
 	terminal_font1.h
 	text_include.h
 	fontdata.h
+	fontmaps.h
 	
 # terminal
 	terminal.h
@@ -16,6 +17,7 @@ set(SSCon_Sources
 # textbuilder
 	textfactory.cpp
 	fontmanager.cpp
+	fontmaps.cpp
 	
 # terminal
 	terminal.cpp
