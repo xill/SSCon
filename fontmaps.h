@@ -2,7 +2,7 @@
 #define FONTMAP_H
 
 #include "text_include.h"
-#include "math/vec2.h"
+#include <utility>
 #include <string>
 #ifdef _WIN32
 #	include <unordered_map>
@@ -19,7 +19,7 @@ class FontMap {
 
 public:
 	static void getTerminalFont1_UV(std::tr1::unordered_map<std::string,GLfloat*> & uv_map);
-	static void getTerminalFont1_DIM(std::tr1::unordered_map<std::string,Vec2f*> & dim_map);
+	static void getTerminalFont1_DIM(std::tr1::unordered_map<std::string,std::pair<float,float>*> & dim_map);
 };
 
 #endif

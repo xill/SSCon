@@ -9,10 +9,10 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <utility>
 #include "text_include.h"
 #include "fontdata.h"
 #include "fontmaps.h"
-#include "math/vec2.h"
 
 #define TERMINAL_FONT1	terminal_font1
 #include				"terminal_font1.h"
@@ -117,7 +117,7 @@ private:
 	GLfloat* font_vertex;
 	ImageContainer* font_image;
 	std::tr1::unordered_map<std::string,GLfloat*> uv_map;
-	std::tr1::unordered_map<std::string,Vec2f*> dim_map;
+	std::tr1::unordered_map<std::string,std::pair<float,float>*> dim_map;
 };
 
 #endif

@@ -33,8 +33,8 @@ void FontManager::drawOnScreenFont(std::string s ,FontData f){
 
 	glPushMatrix();
 
-	float sx = f.font_scale_w*dim_map[s]->x;
-	float sy = f.font_scale_h*dim_map[s]->y;
+	float sx = f.font_scale_w*dim_map[s]->first;
+	float sy = f.font_scale_h*dim_map[s]->second;
 	float extra_y = 0;
 
 	// letters and characters which need to start from a lower point.
@@ -57,7 +57,7 @@ void FontManager::drawOnScreenFont(std::string s ,FontData f){
 
 	glPopMatrix();
 
-	glTranslatef(f.shift_x*dim_map[s]->x ,f.shift_y,0);
+	glTranslatef(f.shift_x*dim_map[s]->first ,f.shift_y,0);
 }
 
 void FontManager::preDraw(){
