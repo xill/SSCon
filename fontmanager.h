@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <utility>
+#include <vector>
 #include "text_include.h"
 #include "fontdata.h"
 #include "fontmaps.h"
@@ -44,8 +45,8 @@ public:
 	{
 		FontMap::getTerminalFont1_UV(uv_map);
 		FontMap::getTerminalFont1_DIM(dim_map);
-		printf("size of uv map was %d \n",uv_map.size());
-		printf("size of dim map was %d \n",dim_map.size());
+		printf("size of uv map was %zu \n",uv_map.size());
+		printf("size of dim map was %zu \n",dim_map.size());
 
 		font_image = new ImageContainer(TERMINAL_FONT1.width, TERMINAL_FONT1.height, TERMINAL_FONT1.bytes_per_pixel, &TERMINAL_FONT1.pixel_data[0]);
 		convertBlackToAlpha(font_image);
