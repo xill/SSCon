@@ -51,6 +51,9 @@ public:
 	{
 		this->R = r; this->G = g; this->B = b; this->A = a;
 	}
+
+	/** is this terminal active? */
+	bool isOpen() { return isOpen; }
 	
 	/** Sets the terminal as open. Thus it can be drawn and used. */
 	void open() { isOpen = true; }
