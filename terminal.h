@@ -18,7 +18,7 @@ public:
 	Terminal() 
 		: keystring("")
 		, indexPointer(-1)
-		, isOpen(false)
+		, _isOpen(false)
 		, shiftIsDown(false)
 		, altGrIsDown(false)
 		, width(0)
@@ -32,7 +32,7 @@ public:
 	Terminal(float _width, float _height) 
 		: keystring("")
 		, indexPointer(-1)
-		, isOpen(false)
+		, _isOpen(false)
 		, shiftIsDown(false)
 		, altGrIsDown(false)
 		, width(_width)
@@ -53,13 +53,13 @@ public:
 	}
 
 	/** is this terminal active? */
-	bool isOpen() { return isOpen; }
+	bool isOpen() { return _isOpen; }
 	
 	/** Sets the terminal as open. Thus it can be drawn and used. */
-	void open() { isOpen = true; }
+	void open() { _isOpen = true; }
 
 	/** Sets the terminal as closed. Thus it cannot be drawn nor used. */
-	void close() { isOpen = false; }
+	void close() { _isOpen = false; }
 
 	/**
 	 * Reads latest SDL key events and updates the terminal.
@@ -70,7 +70,7 @@ public:
 	 */
 	bool update()
 	{
-		if(!isOpen) return false;
+		if(!_isOpen) return false;
 		{
 			SDL_Event event;
 
@@ -82,9 +82,16 @@ public:
 		return true;
 	}
 
+	/** draws the terminal window onscreen.
+	 *  Resets the current view to display 2D elements, 
+	 *  BUT will keep all your enable states AND view settings.
+	 */
 	void draw()
 	{
-		if(!isOpen) return;
+		if(!_isOpen) return;
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 
 		glPushMatrix();
 		glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT);
@@ -102,6 +109,7 @@ public:
 
 		glColor4f(R,G,B,A);
 		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
@@ -201,7 +209,7 @@ public:
 
 private:
 	float width,height;
-	bool isOpen;
+	bool _isOpen;
 	std::string keystring;
 	std::vector<std::string> string_stack;
 	std::vector<std::string> key_stack;
