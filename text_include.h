@@ -1,5 +1,5 @@
-#ifndef GRAPHICS_INCLUDE_H
-#define GRAPHICS_INCLUDE_H
+#ifndef TEXT_INCLUDE_H
+#define TEXT_INCLUDE_H
 
 #ifdef _WIN32
 #	define NOMINMAX
@@ -8,11 +8,12 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-#include <SDL/SDL_opengl.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
 
-#include <iostream>
+#if  !defined(__glew_h__) && !defined(__GLEW_H__)
+	#include <SDL/SDL_opengl.h>
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+#endif
 
 #ifndef GL_TABLE_TOO_LARGE
 #ifdef GL_TABLE_TOO_LARGE_EXT
@@ -22,4 +23,4 @@
 #endif
 #endif
 
-#endif // GRAPHICS_INCLUDE_H
+#endif // TEXT_INCLUDE_H

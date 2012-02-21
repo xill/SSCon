@@ -6,6 +6,7 @@
 #include "terminallistener.h"
 #include <string>
 #include <vector>
+#include <iostream>
 
 #define STACK_CAPASITY 20
 
